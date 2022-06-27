@@ -1,6 +1,6 @@
 fileignoreconfig:
-- filename: src/main/resources/db/migration/V1__CreateTodosTable.sql
-  checksum: 9e1ff110c66710bf8aaf846e25b2093ae42ba935802bf4aba3d3332d83642e07
 - filename: src/main/resources/application.properties
   checksum: 4d9de5f45d1dd7fbf1725d36f3e5ce1a9fce2dc10329cbbe1d9c1efcaba048a1
+- filename: src/main/resources/db/migration/V1__CreateTodosTable.sql
+  checksum: 6157c016fdefc1f25847263b74d71f3e0bd8e90f2eceb17a605a3181cc1896aa
 version: ""
