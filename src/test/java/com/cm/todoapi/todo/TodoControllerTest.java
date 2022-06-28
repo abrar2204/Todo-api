@@ -144,14 +144,14 @@ class TodoControllerTest {
                 new Todo(2, "Watch Movie", "Watch Thor L&T", false, LocalDate.parse("2020-01-01"))
         );
         when(todoService.getAllTodos()).thenReturn(todoList);
-        String expectedResponse = objectMapper.readValue(TODO_RESPONSE_ALL_TODOS, TodoResponse.class).toString();
+        String expectedResponse = getResponseStringFromJSONString(TODO_RESPONSE_ALL_TODOS);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/todo")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String actualResponse = objectMapper.readValue(result.getResponse().getContentAsString(), TodoResponse.class).toString();
+        String actualResponse = getResponseStringFromMvcResult(result);
         assertEquals(expectedResponse, actualResponse);
     }
 
@@ -159,7 +159,7 @@ class TodoControllerTest {
     void shouldCreateANewTodo() throws Exception {
         Todo todo = new Todo(1, "Clean Room", "Arrange the cupboard and sweep the floor", false, LocalDate.parse("2020-01-01"));
         when(todoService.createNewTodo(any())).thenReturn(todo);
-        String expectedResponse = objectMapper.readValue(TODO_RESPONSE_WITH_ALL_FIELDS, TodoResponse.class).toString();
+        String expectedResponse = getResponseStringFromJSONString(TODO_RESPONSE_WITH_ALL_FIELDS);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/todo")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -167,24 +167,27 @@ class TodoControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String actualResponse = objectMapper.readValue(result.getResponse().getContentAsString(), TodoResponse.class).toString();
+        String actualResponse = getResponseStringFromMvcResult(result);
         assertEquals(expectedResponse, actualResponse);
     }
 
     @Test
     void shouldNotCreateNewTodoWhenRequiredFieldsAreNotGiven() throws Exception {
+        String expectedResponse = getResponseStringFromJSONString(TODO_RESPONSE_FOR_MISSING_FIELDS);
+
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/todo")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(TODO_REQUEST_WITH_MISSING_FIELDS))
                 .andExpect(status().isUnprocessableEntity())
                 .andReturn();
 
-        assertEquals(objectMapper.readValue(TODO_RESPONSE_FOR_MISSING_FIELDS, TodoResponse.class).toString(), objectMapper.readValue(result.getResponse().getContentAsString(), TodoResponse.class).toString());
+        String actualResponse = getResponseStringFromMvcResult(result);
+        assertEquals(expectedResponse,actualResponse);
     }
 
     @Test
     void shouldDeleteATodo() throws Exception {
-        String expectedResponse = objectMapper.readValue(TODO_DELETE_SUCCESS_RESPONSE, TodoResponse.class).toString();
+        String expectedResponse = getResponseStringFromJSONString(TODO_DELETE_SUCCESS_RESPONSE);
         doNothing().when(todoService).deleteTodoById(1);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/api/todo/1")
@@ -192,13 +195,13 @@ class TodoControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String actualResponse = objectMapper.readValue(result.getResponse().getContentAsString(), TodoResponse.class).toString();
+        String actualResponse = getResponseStringFromMvcResult(result);
         assertEquals(expectedResponse, actualResponse);
     }
 
     @Test
     void shouldThrowErrorWhenTodoThatDoesNotExistIsDeleted() throws Exception {
-        String expectedResponse = objectMapper.readValue(TODO_DELETE_FAILURE_RESPONSE, TodoResponse.class).toString();
+        String expectedResponse = getResponseStringFromJSONString(TODO_DELETE_FAILURE_RESPONSE);
         doThrow(new TodoNotFoundException("Todo with id 1 is not found")).when(todoService).deleteTodoById(1);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/api/todo/1")
@@ -212,7 +215,7 @@ class TodoControllerTest {
 
     @Test
     void shouldUpdateATodoBasedOnId() throws Exception {
-        String expectedResponse = objectMapper.readValue(TODO_UPDATE_SUCCESS_RESPONSE, TodoResponse.class).toString();
+        String expectedResponse = getResponseStringFromJSONString(TODO_UPDATE_SUCCESS_RESPONSE);
         Todo todo = new Todo(1, "Clean Room", "Arrange the cupboard and sweep the floor", false, LocalDate.parse("2020-01-01"));
         when(todoService.updateTodoById(any(),any())).thenReturn(todo);
 
@@ -229,7 +232,7 @@ class TodoControllerTest {
 
     @Test
     void shouldThrowExceptionWhenTodoThatDoesNotExistIsUpdated() throws Exception {
-        String expectedResponse = objectMapper.readValue(TODO_UPDATE_FAILURE_RESPONSE,TodoResponse.class).toString();
+        String expectedResponse = getResponseStringFromJSONString(TODO_UPDATE_FAILURE_RESPONSE);
         when(todoService.updateTodoById(any(),any())).thenThrow(new TodoNotFoundException(10));
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/todo/10")
@@ -245,5 +248,9 @@ class TodoControllerTest {
 
     String getResponseStringFromMvcResult(MvcResult result) throws Exception {
         return objectMapper.readValue(result.getResponse().getContentAsString(), TodoResponse.class).toString();
+    }
+
+    String getResponseStringFromJSONString(String jsonString) throws Exception {
+        return objectMapper.readValue(jsonString, TodoResponse.class).toString();
     }
 }
