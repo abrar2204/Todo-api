@@ -34,4 +34,10 @@ public class TodoController {
         }
         return ResponseEntity.ok(new TodoResponse(todoService.createNewTodo(newTodo),null));
     }
+
+    @DeleteMapping(path = "{id}")
+    ResponseEntity<TodoResponse> deleteATodoById(@PathVariable Integer id){
+        todoService.deleteTodoById(id);
+        return ResponseEntity.ok(new TodoResponse("Successfully deleted 1 todo",null));
+    }
 }
