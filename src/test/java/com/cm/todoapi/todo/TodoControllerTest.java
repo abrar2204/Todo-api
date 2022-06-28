@@ -14,12 +14,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -157,8 +155,9 @@ class TodoControllerTest {
 
     @Test
     void shouldCreateANewTodo() throws Exception {
-        Todo todo = new Todo(1, "Clean Room", "Arrange the cupboard and sweep the floor", false, LocalDate.parse("2020-01-01"));
-        when(todoService.createNewTodo(any())).thenReturn(todo);
+        Todo passedTodo = new Todo(null, "Clean Room", "Arrange the cupboard and sweep the floor", false, LocalDate.parse("2020-01-01"));
+        Todo returnedTodo = new Todo(1, "Clean Room", "Arrange the cupboard and sweep the floor", false, LocalDate.parse("2020-01-01"));
+        when(todoService.createNewTodo(passedTodo)).thenReturn(returnedTodo);
         String expectedResponse = getResponseStringFromJSONString(TODO_RESPONSE_WITH_ALL_FIELDS);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/todo")
@@ -217,7 +216,7 @@ class TodoControllerTest {
     void shouldUpdateATodoBasedOnId() throws Exception {
         String expectedResponse = getResponseStringFromJSONString(TODO_UPDATE_SUCCESS_RESPONSE);
         Todo todo = new Todo(1, "Clean Room", "Arrange the cupboard and sweep the floor", false, LocalDate.parse("2020-01-01"));
-        when(todoService.updateTodoById(any(),any())).thenReturn(todo);
+        when(todoService.updateTodoById(1,todo)).thenReturn(todo);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/todo/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -232,8 +231,9 @@ class TodoControllerTest {
 
     @Test
     void shouldThrowExceptionWhenTodoThatDoesNotExistIsUpdated() throws Exception {
+        Todo passedTodo = new Todo(1, "Clean Room", "Arrange the cupboard and sweep the floor", false, LocalDate.parse("2020-01-01"));
         String expectedResponse = getResponseStringFromJSONString(TODO_UPDATE_FAILURE_RESPONSE);
-        when(todoService.updateTodoById(any(),any())).thenThrow(new TodoNotFoundException(10));
+        when(todoService.updateTodoById(10,passedTodo)).thenThrow(new TodoNotFoundException(10));
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/todo/10")
                         .contentType(MediaType.APPLICATION_JSON)

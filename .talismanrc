@@ -5,4 +5,8 @@ fileignoreconfig:
   checksum: 6157c016fdefc1f25847263b74d71f3e0bd8e90f2eceb17a605a3181cc1896aa
 - filename: src/main/resources/db/migration/V2__AlterColumnNameCheckedToIsCompleted.sql
   checksum: 0dd489ffb219ea30c3c85b5b067792876faa69321e128011053786f92bceda4f
+- filename: src/main/resources/db/migration/V3__AddTodos.sql
+  checksum: 16369d36f726ab900e9d8796f4a6a211a041528384102c0690f75b86ce1977fb
+- filename: src/test/java/com/cm/todoapi/todo/TodoControllerTest.java
+  checksum: f2c8b84824f1876bc56a1317983e25b8bb85b6ad38069d449f9348ea699a2786
 version: ""
