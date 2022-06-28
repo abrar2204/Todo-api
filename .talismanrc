@@ -3,4 +3,6 @@ fileignoreconfig:
   checksum: 4d9de5f45d1dd7fbf1725d36f3e5ce1a9fce2dc10329cbbe1d9c1efcaba048a1
 - filename: src/main/resources/db/migration/V1__CreateTodosTable.sql
   checksum: 6157c016fdefc1f25847263b74d71f3e0bd8e90f2eceb17a605a3181cc1896aa
+- filename: src/main/resources/db/migration/V2__AlterColumnNameCheckedToIsCompleted.sql
+  checksum: 0dd489ffb219ea30c3c85b5b067792876faa69321e128011053786f92bceda4f
 version: ""

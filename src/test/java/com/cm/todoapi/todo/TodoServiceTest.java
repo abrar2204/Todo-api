@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(MockitoExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class TodoServiceTest {
-
     @Autowired
     TodoService todoService;
 
@@ -72,6 +71,20 @@ public class TodoServiceTest {
     @Test
     void shouldThrowExceptionWhenTodoThatDoesNotExistIsDeleted() {
         assertThrows(TodoNotFoundException.class, () -> todoService.deleteTodoById(10));
+    }
+
+    @Test
+    void shouldUpdateATodoById() {
+        Todo todo = new Todo(1, "Clean Room 2", "Arrange the cupboard and sweep the floor", false, LocalDate.parse("2020-01-01"));
+
+        Todo updatedTodo = todoService.updateTodoById(1,todo);
+
+        assertEquals(todo.toString(),updatedTodo.toString());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenTodoThatDoesNotExistIsUpdated() {
+        assertThrows(TodoNotFoundException.class, () -> todoService.updateTodoById(10,new Todo()));
     }
 
     @AfterEach

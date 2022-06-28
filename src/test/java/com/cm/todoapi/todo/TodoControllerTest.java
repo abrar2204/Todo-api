@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -42,14 +43,14 @@ class TodoControllerTest {
                         "id": 1,
                         "title": "Clean Room",
                         "description": "Arrange the cupboard and sweep the floor",
-                        "checked": false,
+                        "completed": false,
                         "createdAt": "2020-01-01"
                     },
                     {
                         "id": 2,
                         "title": "Watch Movie",
                         "description": "Watch Thor L&T",
-                        "checked": false,
+                        "completed": false,
                         "createdAt": "2020-01-01"
                     }
                 ],
@@ -60,7 +61,7 @@ class TodoControllerTest {
             {
                 "title": "Clean Room",
                 "description": "Arrange the cupboard and sweep the floor",
-                "checked": false,
+                "completed": false,
                 "createdAt": "2020-01-01"
             }
             """;
@@ -70,7 +71,7 @@ class TodoControllerTest {
                     "id": 1,
                     "title": "Clean Room",
                     "description": "Arrange the cupboard and sweep the floor",
-                    "checked": false,
+                    "completed": false,
                     "createdAt": "2020-01-01"
                 },
                 "error": null
@@ -80,7 +81,7 @@ class TodoControllerTest {
             {
                 "title": "Watch Movie",
                 "description": "Arrange the cupboard and sweep the floor",
-                "checked": false
+                "completed": false
             }
             """;
     final String TODO_RESPONSE_FOR_MISSING_FIELDS = """
@@ -103,6 +104,36 @@ class TodoControllerTest {
             {
                 "success": null,
                 "error": "Todo with id 1 is not found"
+            }
+            """;
+
+    final String TODO_UPDATE_BODY = """
+                {
+                    "id": 1,
+                    "title": "Clean Room",
+                    "description": "Arrange the cupboard and sweep the floor",
+                    "completed": false,
+                    "createdAt": "2020-01-01"
+                }
+                """;
+
+    final String TODO_UPDATE_SUCCESS_RESPONSE = """
+                    {
+                        "success":{
+                            "id": 1,
+                            "title": "Clean Room",
+                            "description": "Arrange the cupboard and sweep the floor",
+                            "completed": false,
+                            "createdAt": "2020-01-01"
+                        },
+                        "error": null
+                    }
+                """;
+
+    final String TODO_UPDATE_FAILURE_RESPONSE = """
+            {
+                "success": null,
+                "error": "Todo with id 10 is not found"
             }
             """;
 
@@ -175,7 +206,44 @@ class TodoControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        String actualResponse = objectMapper.readValue(result.getResponse().getContentAsString(), TodoResponse.class).toString();
+        String actualResponse = getResponseStringFromMvcResult(result);
         assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void shouldUpdateATodoBasedOnId() throws Exception {
+        String expectedResponse = objectMapper.readValue(TODO_UPDATE_SUCCESS_RESPONSE, TodoResponse.class).toString();
+        Todo todo = new Todo(1, "Clean Room", "Arrange the cupboard and sweep the floor", false, LocalDate.parse("2020-01-01"));
+        when(todoService.updateTodoById(any(),any())).thenReturn(todo);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/todo/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(TODO_UPDATE_BODY)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponse = getResponseStringFromMvcResult(result);
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenTodoThatDoesNotExistIsUpdated() throws Exception {
+        String expectedResponse = objectMapper.readValue(TODO_UPDATE_FAILURE_RESPONSE,TodoResponse.class).toString();
+        when(todoService.updateTodoById(any(),any())).thenThrow(new TodoNotFoundException(10));
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/todo/10")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(TODO_UPDATE_BODY)
+                )
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String actualResponse = getResponseStringFromMvcResult(result);
+        assertEquals(expectedResponse,actualResponse);
+    }
+
+    String getResponseStringFromMvcResult(MvcResult result) throws Exception {
+        return objectMapper.readValue(result.getResponse().getContentAsString(), TodoResponse.class).toString();
     }
 }

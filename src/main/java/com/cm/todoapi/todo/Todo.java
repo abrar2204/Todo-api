@@ -16,18 +16,18 @@ public class Todo {
     @NotNull(message = "Provide a description")
     private String description;
     @NotNull(message = "Provide a completed status")
-    private boolean checked;
+    private boolean completed;
     @NotNull(message = "Provide a created date")
     private LocalDate createdAt;
 
     public Todo() {
     }
 
-    public Todo(Integer id, String title, String description, boolean checked, LocalDate createdAt) {
+    public Todo(Integer id, String title, String description, boolean completed, LocalDate createdAt) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.checked = checked;
+        this.completed = completed;
         this.createdAt = createdAt;
     }
 
@@ -36,7 +36,7 @@ public class Todo {
         return "Todo{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", checked=" + checked +
+                ", completed=" + completed +
                 ", createdAt=" + createdAt +
                 '}';
     }
@@ -65,12 +65,12 @@ public class Todo {
         this.description = description;
     }
 
-    public boolean isChecked() {
-        return checked;
+    public boolean isCompleted() {
+        return completed;
     }
 
-    public void setChecked(boolean checked) {
-        this.checked = checked;
+    public void setChecked(boolean completed) {
+        this.completed = completed;
     }
 
     public LocalDate getCreatedAt() {
