@@ -34,7 +34,7 @@ public class TodoService {
 
         newTodo.setTitle(todo.getTitle());
         newTodo.setDescription(todo.getDescription());
-        newTodo.setChecked(todo.isCompleted());
+        newTodo.setCompleted(todo.isCompleted());
         newTodo.setCreatedAt(todo.getCreatedAt());
 
         return newTodo;

@@ -1,12 +1,21 @@
 package com.cm.todoapi.todo;
 
+import lombok.*;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,65 +28,4 @@ public class Todo {
     private boolean completed;
     @NotNull(message = "Provide a created date")
     private LocalDate createdAt;
-
-    public Todo() {
-    }
-
-    public Todo(Integer id, String title, String description, boolean completed, LocalDate createdAt) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.completed = completed;
-        this.createdAt = createdAt;
-    }
-
-    @Override
-    public String toString() {
-        return "Todo{" +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", completed=" + completed +
-                ", createdAt=" + createdAt +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void setChecked(boolean completed) {
-        this.completed = completed;
-    }
-
-    public LocalDate getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-    }
 }

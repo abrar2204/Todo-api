@@ -48,7 +48,7 @@ public class TodoServiceTest {
 
         List<Todo> actualTodos = todoService.getAllTodos();
 
-        assertEquals(todoList.toString(), actualTodos.toString());
+        assertEquals(todoList, actualTodos);
     }
 
     @Test
@@ -57,15 +57,17 @@ public class TodoServiceTest {
 
         Todo actualTodo = todoService.createNewTodo(newTodo);
 
-        assertEquals(newTodo.toString(), actualTodo.toString());
+        assertEquals(newTodo, actualTodo);
     }
 
     @Test
     void shouldDeleteATodo() {
+        Todo remainingTodo = new Todo(2, "Watch Movie", "Watch Thor L&T", false, LocalDate.parse("2020-01-02"));
+
         todoService.deleteTodoById(1);
 
         assertEquals(1, todoRepository.findAll().size());
-        assertEquals(new Todo(null, "Watch Movie", "Watch Thor L&T", false, LocalDate.parse("2020-01-02")).toString(), todoRepository.findAll().get(0).toString());
+        assertEquals(remainingTodo, todoRepository.findAll().get(0));
     }
 
     @Test
@@ -79,7 +81,7 @@ public class TodoServiceTest {
 
         Todo updatedTodo = todoService.updateTodoById(1,todo);
 
-        assertEquals(todo.toString(),updatedTodo.toString());
+        assertEquals(todo,updatedTodo);
     }
 
     @Test
