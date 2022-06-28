@@ -30,22 +30,31 @@ public class TodoServiceTest {
     @BeforeEach()
     void setUp(){
         List<Todo> todoList = List.of(
-                new Todo(null,"Clean Room","Arrange the cupboard and sweep the floor",false, LocalDate.now()),
-                new Todo(null,"Watch Movie","Watch Thor L&T",false, LocalDate.now())
+                new Todo(null,"Clean Room","Arrange the cupboard and sweep the floor",false, LocalDate.parse("2020-01-01")),
+                new Todo(null,"Watch Movie","Watch Thor L&T",false, LocalDate.parse("2020-01-02"))
         );
         todoRepository.saveAll(todoList);
     }
 
     @Test
-    void shouldGetAllMovies() {
+    void shouldGetAllTodo() {
         List<Todo> todoList = List.of(
-                new Todo(1,"Clean Room","Arrange the cupboard and sweep the floor",false, LocalDate.now()),
-                new Todo(2,"Watch Movie","Watch Thor L&T",false, LocalDate.now())
+                new Todo(1,"Clean Room","Arrange the cupboard and sweep the floor",false, LocalDate.parse("2020-01-01")),
+                new Todo(2,"Watch Movie","Watch Thor L&T",false, LocalDate.parse("2020-01-02"))
         );
 
         List<Todo> actualTodos = todoService.getAllTodos();
 
         assertEquals(todoList.toString(),actualTodos.toString());
+    }
+
+    @Test
+    void shouldCreateNewTodo() {
+        Todo newTodo = new Todo(1,"Clean Room","Arrange the cupboard and sweep the floor",false, LocalDate.parse("2020-01-01"));
+
+        Todo actualTodo = todoService.createNewTodo(newTodo);
+
+        assertEquals(newTodo.toString(),actualTodo.toString());
     }
 
     @AfterEach

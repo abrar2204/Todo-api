@@ -14,9 +14,11 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -47,5 +49,27 @@ class TodoControllerTest {
 
         List<Todo> actualTodos = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<Todo>>(){});
         assertEquals(todoList.toString(),actualTodos.toString());
+    }
+
+    @Test
+    void shouldCreateANewTodo() throws Exception {
+        Todo todo = new Todo(1,"Clean Room","Arrange the cupboard and sweep the floor",false, LocalDate.parse("2020-01-01"));
+        when(todoService.createNewTodo(any())).thenReturn(todo);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/todo").contentType(MediaType.APPLICATION_JSON).content(
+                        """
+                        {
+                            "title": "Clean Room",
+                            "description": "Arrange the cupboard and sweep the floor",
+                            "checked":false,
+                            "createdAt": "2020-01-02"
+                        }
+                        """
+                ))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Todo actualTodo = objectMapper.readValue(result.getResponse().getContentAsString(), Todo.class);
+        assertEquals(todo.toString(),actualTodo.toString());
     }
 }

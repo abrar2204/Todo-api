@@ -4,15 +4,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 @Entity
 public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotNull(message = "Provide a title")
     private String title;
+    @NotNull(message = "Provide a description")
     private String description;
+    @NotNull(message = "Provide a completed status")
     private boolean checked;
+    @NotNull(message = "Provide a created date")
     private LocalDate createdAt;
 
     public Todo() {
@@ -29,8 +34,7 @@ public class Todo {
     @Override
     public String toString() {
         return "Todo{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", checked=" + checked +
                 ", createdAt=" + createdAt +
