@@ -1,4 +1,4 @@
-package com.cm.todoapi.todo;
+package com.cm.todoapi.todo.model;
 
 import lombok.*;
 

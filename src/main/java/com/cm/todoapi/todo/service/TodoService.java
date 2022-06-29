@@ -1,6 +1,8 @@
-package com.cm.todoapi.todo;
+package com.cm.todoapi.todo.service;
 
+import com.cm.todoapi.todo.model.Todo;
 import com.cm.todoapi.todo.exceptions.TodoNotFoundException;
+import com.cm.todoapi.todo.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

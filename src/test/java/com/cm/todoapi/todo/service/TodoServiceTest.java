@@ -1,6 +1,9 @@
-package com.cm.todoapi.todo;
+package com.cm.todoapi.todo.service;
 
 import com.cm.todoapi.todo.exceptions.TodoNotFoundException;
+import com.cm.todoapi.todo.model.Todo;
+import com.cm.todoapi.todo.repository.TodoRepository;
+import com.cm.todoapi.todo.service.TodoService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

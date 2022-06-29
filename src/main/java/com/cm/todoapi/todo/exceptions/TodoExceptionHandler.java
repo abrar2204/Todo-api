@@ -1,4 +1,4 @@
-package com.cm.todoapi.todo;
+package com.cm.todoapi.todo.exceptions;
 
 import com.cm.todoapi.todo.exceptions.TodoNotFoundException;
 import com.cm.todoapi.todo.response.TodoResponse;

@@ -1,5 +1,7 @@
-package com.cm.todoapi.todo;
+package com.cm.todoapi.todo.controller;
 
+import com.cm.todoapi.todo.model.Todo;
+import com.cm.todoapi.todo.service.TodoService;
 import com.cm.todoapi.todo.response.TodoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

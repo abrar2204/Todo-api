@@ -1,7 +1,10 @@
-package com.cm.todoapi.todo;
+package com.cm.todoapi.todo.controller;
 
+import com.cm.todoapi.todo.controller.TodoController;
 import com.cm.todoapi.todo.exceptions.TodoNotFoundException;
+import com.cm.todoapi.todo.model.Todo;
 import com.cm.todoapi.todo.response.TodoResponse;
+import com.cm.todoapi.todo.service.TodoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
