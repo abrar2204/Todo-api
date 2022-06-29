@@ -1,0 +1,40 @@
+{
+  "success": [
+    {
+      "id": 1,
+      "title": "Clean Room",
+      "description": "Organize and sweep the room",
+      "completed": false,
+      "createdAt": "2022-06-27"
+    },
+    {
+      "id": 2,
+      "title": "Watch Movie",
+      "description": "Watch Thor Love and Thunder",
+      "completed": false,
+      "createdAt": "2022-06-30"
+    },
+    {
+      "id": 3,
+      "title": "Download Game",
+      "description": "Install Monster Hunter Rise Sunbreak",
+      "completed": false,
+      "createdAt": "2022-06-30"
+    },
+    {
+      "id": 4,
+      "title": "Pay Bills",
+      "description": "Pay Internet and Electricity Bill",
+      "completed": true,
+      "createdAt": "2020-06-01"
+    },
+    {
+      "id": 5,
+      "title": "Fill Petrol",
+      "description": "Fill Petrol in Bike",
+      "completed": true,
+      "createdAt": "2020-06-27"
+    }
+  ],
+  "error": null
+}

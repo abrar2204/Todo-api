@@ -1,0 +1,10 @@
+{
+  "success": {
+    "id": 1,
+    "title": "Clean Room",
+    "description": "Organize and sweep the room",
+    "completed": true,
+    "createdAt": "2022-06-27"
+  },
+  "error": null
+}
